@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 class Input extends Component {
     render() {
-        console.log(this.props.disable ? true : false);
-        
         return (
             <div className="form-group">
                 <label htmlFor={this.props.inputName}>{this.props.label}</label>

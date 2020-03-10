@@ -6,6 +6,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: -webkit-linear-gradient(left, #0072ff, #00c6ff); */
+  /* font-family: -apple-system, BlinkMacSystemFont, 'inherit', 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background: -webkit-linear-gradient(left, #0072ff, #00c6ff);
 }
 

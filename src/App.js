@@ -27,6 +27,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('render app');
     return (
       <Router>
         {this.isAuthenticated()}

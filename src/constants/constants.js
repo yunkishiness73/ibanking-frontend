@@ -1,7 +1,7 @@
-export const API_URL =  'http://localhost:3001/api'
+export const API_URL =  'http://localhost:8080/RESTfulExample/ibanking'
 
-export const ALERT_ON = 'ALERT_ON';
-export const ALERT_OFF = 'ALERT_OFF';
+export const SHOW_MODAL = 'SHOW_MODAL';
+export const HIDE_MODAL = 'HIDE_MODAL';
 
 export const StatusCode = {
     SUCCESS: 200,
@@ -13,3 +13,4 @@ export const AlertType = {
     SUCCESS: 'SUCCESS',
     FAIL: 'FAIL'
 }
+

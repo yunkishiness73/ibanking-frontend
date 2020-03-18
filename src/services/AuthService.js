@@ -11,17 +11,13 @@ class AuthService extends BaseService {
     }
     
     authenticate(username, password) {
-        let payload = { username, password };
-
-        let bodyFormData = new FormData();
-        bodyFormData.set('username', username);
-
         return new Promise((resolve, reject) => {
             axios({
                 method: 'POST',
                 url: `${this.requestURL}`,
                 data: qs.stringify({
-                    username
+                    username,
+                    password
                 }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded' }
                 })

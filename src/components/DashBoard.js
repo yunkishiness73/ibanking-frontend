@@ -4,12 +4,23 @@ import SubmitBtn from './SubmitBtn';
 import { connect } from 'react-redux';
 import * as actions from '../actions/auth';
 import ModalBox from './ModalBox';
+import FeeService from '../services/FeeService';
+import Waiting from './Waiting';
 
 class DashBoard extends Component {
     logOut = () => {
         console.log('log out');
         this.props.logOut();
-        document.location = 'http://localhost:3000/';
+        //document.location = 'http://localhost:3000/';
+    }
+
+    componentWillMount() {
+        const token = localStorage.getItem('token');
+        
+        if (token) {
+            FeeService.setHeader('Authorization', JSON.parse(token));
+        }
+           
     }
 
     render() {
@@ -18,6 +29,7 @@ class DashBoard extends Component {
         return (
             <div className="container contact-form">
                 <ModalBox />
+                {/* <Waiting /> */}
                 <div style={{ textAlign: 'right'}}>
                     <span>Hi, <b>Kiet </b></span> <button className="btn btn-outline-danger" onClick={() => this.logOut()}>Log Out</button>
                 </div>
@@ -33,9 +45,9 @@ class DashBoard extends Component {
                             <Input label="Số Điện Thoại" inputName="txtPhone" value={userInfo.phone_number} disable="true" />
                         </div>
                         <div className="col-md-6">
-                            <Input label="Mã SV" name="studentId" inputName="txtStudentID" value={this.props.tuitionFee ? this.props.tuitionFee.student_id : ''} />
-                            <Input label="Họ Tên Sinh Viên" inputName="txtStudentName" value={this.props.tuitionFee && this.props.tuitionFee.student_id ? this.props.tuitionFee.student_name : ''} disable="true" />
-                            <Input label="Số Tiền" inputName="txtTuitionFee" value={this.props.tuitionFee ? this.props.tuitionFee.tuition : ''} disable="true" />
+                            <Input placeholder="Nhập Mã SV *" label="Mã SV" name="studentId" inputName="txtStudentID" value={this.props.tuitionFee ? this.props.tuitionFee.student_id : ''} />
+                            <Input label="Họ Tên Sinh Viên" name="studentName" inputName="txtStudentName" value={this.props.tuitionFee && this.props.tuitionFee.student_id ? this.props.tuitionFee.student_name : ''} disable="true" />
+                            <Input label="Số Tiền" name="tuitionFee" inputName="txtTuitionFee" value={this.props.tuitionFee && this.props.tuitionFee.student_id ? this.props.tuitionFee.tuition : ''} disable="true" />
                             <SubmitBtn />
                       
                         </div>

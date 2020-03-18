@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Spinner } from 'react-bootstrap';
 import Label from './Label';
 import Content from './Content';
 import { connect } from 'react-redux';
 import * as actions from '../actions/fee';
+import FeeService from '../services/FeeService';
 
 class ModalBox extends Component {
 
@@ -13,6 +14,15 @@ class ModalBox extends Component {
       show: false
     }
   }
+
+  componentWillMount() {
+    const token = localStorage.getItem('token');
+    
+    if (token) {
+        FeeService.setHeader('Authorization', JSON.parse(token));
+    }
+       
+}
 
   handleShow = () => {
     this.setState({ show: true })
@@ -38,13 +48,24 @@ class ModalBox extends Component {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     let tuitionFee = this.props.tuitionFee;
 
-    if (userInfo && tuitionFee) {
+    if (userInfo && tuitionFee && this.state.OTP)  {
       this.props.payTuitionFee({
         studentId: tuitionFee.student_id,
-        email: userInfo.email
+        email: userInfo.email,
+        OTP: this.state.OTP
       });
     }
   }
+
+  handleInputChange = (e) => {
+    const target = e.target;
+    const key = target.name;
+    const value = target.value;
+
+    if (value) {
+        this.setState({  [key]: value  })
+    }
+}
 
   render() {
     console.log('showModal');
@@ -53,11 +74,12 @@ class ModalBox extends Component {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     return (
       <>
-        <Modal show={this.showOrHideModal()} dialogClassName="modal-90w">
+        <Modal show={true} dialogClassName="modal-90w">
         <Modal.Header>
           <h3>Thông Tin Giao Dịch</h3>
         </Modal.Header>
           <Modal.Body>
+          <Spinner animation="border" />
             <div className="row">
               <div className="col-sm-5">
                 <Label label="Tên khách hàng" />
@@ -65,6 +87,7 @@ class ModalBox extends Component {
                 <Label label="Mã SV" />
                 <Label label="Tên SV" />
                 <Label label="Số tiền thanh toán" />
+                <Label label="Nhập mã OTP" />
               </div>
               <div className="col-sm-7">
                 <Content>{userInfo ? userInfo.full_name : ''}</Content>
@@ -72,6 +95,7 @@ class ModalBox extends Component {
     <Content>{this.props.tuitionFee ? this.props.tuitionFee.student_id : ''}</Content>
                 <Content>{this.props.tuitionFee ? this.props.tuitionFee.student_name : ''}</Content>
                 <Content>{this.props.tuitionFee ? this.props.tuitionFee.tuition : ''}</Content>
+                <input name="OTP" onChange={(e) => this.handleInputChange(e)} className="form-control" style={{ width: '30%'}} />
               </div>
             </div>
           </Modal.Body>

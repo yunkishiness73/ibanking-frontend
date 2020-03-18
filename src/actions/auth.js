@@ -24,7 +24,7 @@ export const auth = (username, password) => {
                     token = res.data.token;
                     console.log(token);
                     
-                    AuthService.setHeader('Authorization', token);
+                    UserService.setHeader('Authorization', token);
 
                     return UserService.getCurrentUserInfo(username);
                 }

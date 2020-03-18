@@ -2,17 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/fee';
 import _ from 'lodash';
+import FeeService from '../services/FeeService';
 
 class SubmitBtn extends Component {
     showPaymentInfo = (e) => {
         e.preventDefault();
+        const tuitionFee = this.props.tuitionFee;
 
-        console.log(this.props.paymentInfo)
-        const paymentInfo = this.props.paymentInfo;
-        
-        console.log(paymentInfo);
-        if (!_.isEmpty(paymentInfo) && paymentInfo.studentId) 
-            this.props.showPaymentInfo(paymentInfo);
+        if (tuitionFee.student_name && tuitionFee.student_id && tuitionFee.tuition) {
+            this.props.showPaymentInfo();
+
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+            if (userInfo) {
+                return FeeService.getOTPNumber(userInfo.email)
+                  .then(res => {
+                    if (res.status === 200) {
+                        alert('OTP sent to your email !');
+                    }
+                  })
+                  .catch(err => {
+                  
+                  });
+            }
+                this.props.fetchOTPNumber(userInfo.email);
+        }
     }
 
     render() {
@@ -27,14 +41,16 @@ class SubmitBtn extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        showPaymentInfo: (paymentInfo) => dispatch(actions.showPaymentInfo(paymentInfo)),
-        fetchTuitionFeeByStudentId: (paymentInfo) => dispatch(actions.fetchTuitionFeeByStudentId(paymentInfo))
+        showPaymentInfo: () => dispatch(actions.showPaymentInfo()),
+        fetchTuitionFeeByStudentId: (paymentInfo) => dispatch(actions.fetchTuitionFeeByStudentId(paymentInfo)),
+        fetchOTPNumber: (email) => dispatch(actions.fetchOTPNumber(email))
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        paymentInfo: state.fee.paymentInfo
+        paymentInfo: state.fee.paymentInfo,
+        tuitionFee: state.fee.tuitionFee
     }
 }
 

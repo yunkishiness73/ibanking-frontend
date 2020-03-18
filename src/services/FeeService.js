@@ -21,7 +21,11 @@ class Fee extends BaseService {
     }
 
     payTuitionFee(paymentInfo) {
-        return this.get(`${this.baseURL}/transaction/${paymentInfo.studentId}/${paymentInfo.email}`);
+        return this.get(`${this.baseURL}/transaction/${paymentInfo.studentId}/${paymentInfo.email}/${paymentInfo.OTP}`);
+    }
+
+    getOTPNumber(email) {
+        return this.get(`${this.baseURL}/otp/generate/${email}`);
     }
 }
 

@@ -74,12 +74,11 @@ class ModalBox extends Component {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     return (
       <>
-        <Modal show={true} dialogClassName="modal-90w">
+        <Modal show={this.showOrHideModal()} dialogClassName="modal-90w">
         <Modal.Header>
           <h3>Thông Tin Giao Dịch</h3>
         </Modal.Header>
           <Modal.Body>
-          <Spinner animation="border" />
             <div className="row">
               <div className="col-sm-5">
                 <Label label="Tên khách hàng" />

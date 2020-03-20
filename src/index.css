@@ -78,4 +78,7 @@ display: inline-block;
 
 .modal-dialog {
   max-width: 40% !important;
+  vertical-align: middle !important;
+  top: 35px;
+  /* left: 50%; */
 }

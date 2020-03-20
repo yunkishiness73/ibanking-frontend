@@ -1,5 +1,5 @@
 import { SHOW_MODAL, HIDE_MODAL } from "../constants/constants"
-import { PAYMENT_INFO, PAYMENT_INFO_SUCCESS } from "../constants/fee"
+import { PAYMENT_INFO, PAYMENT_INFO_SUCCESS, SHOW_SPINNER, HIDE_SPINNER } from "../constants/fee"
 
 const initialState = {
     showModal: false
@@ -16,6 +16,20 @@ const hideModal = (state, action) => {
     return {
         ...state,
         showModal: false
+    }
+}
+
+const showSpinner = (state, action) => {
+    return {
+        ...state,
+        showSpinner: true
+    }
+}
+
+const hideSpinner = (state, action) => {
+    return {
+        ...state,
+        showSpinner: false
     }
 }
 
@@ -43,6 +57,10 @@ const reducer = (state = initialState, action) => {
             return paymentInfo(state, action);
         case PAYMENT_INFO_SUCCESS:
             return tuitiolFee(state, action);
+        case SHOW_SPINNER:
+            return showSpinner(state, action);
+        case HIDE_SPINNER:
+            return hideSpinner(state, action);
         default:
             return state;
     }

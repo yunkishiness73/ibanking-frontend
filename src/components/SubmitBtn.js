@@ -9,8 +9,8 @@ class SubmitBtn extends Component {
         e.preventDefault();
         const tuitionFee = this.props.tuitionFee;
 
-        if (tuitionFee.student_name && tuitionFee.student_id && tuitionFee.tuition) {
-            this.props.showPaymentInfo();
+        if (tuitionFee && tuitionFee.student_name && tuitionFee.student_id && tuitionFee.tuition) {
+            this.props.showSpinner();
 
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -18,10 +18,11 @@ class SubmitBtn extends Component {
                 return FeeService.getOTPNumber(userInfo.email)
                   .then(res => {
                     if (res.status === 200) {
+                        this.props.hideSpinner();
+                        this.props.showPaymentInfo();
                         alert('OTP sent to your email !');
                     }
-                  })
-                  .catch(err => {
+                  }).catch(err => {
                   
                   });
             }
@@ -43,7 +44,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         showPaymentInfo: () => dispatch(actions.showPaymentInfo()),
         fetchTuitionFeeByStudentId: (paymentInfo) => dispatch(actions.fetchTuitionFeeByStudentId(paymentInfo)),
-        fetchOTPNumber: (email) => dispatch(actions.fetchOTPNumber(email))
+        fetchOTPNumber: (email) => dispatch(actions.fetchOTPNumber(email)),
+        showSpinner: () => dispatch(actions.showSpinner()),
+        hideSpinner: () => dispatch(actions.hideSpinner())
     }
 }
 
